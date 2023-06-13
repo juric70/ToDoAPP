@@ -1,0 +1,77 @@
+{% extends 'projects/layout.html' %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="row">
+            <div class="col-5" style="float: left;margin-top: 3rem;text-align: left;margin-left: 1.5%">
+                <h1>My projects {{ request.user }}</h1>
+            </div>
+
+            <div class="col-6 homep-add" style="float: right;margin-top: 3rem;text-align: right;padding: 0;">
+                <a href="{% url 'project-create' %}" style="text-decoration: none" title="Dodaj projekt">
+                    <b style="color: #EC6091">
+                        <i class="fa fa-plus" aria-hidden="true" style="color: #EC6091"></i>
+                        Projekat
+                    </b>
+                </a>
+                <form method="get">
+                    <input type="text" name="search-area" value="{{ search_input }}"
+                           style="border-radius: 5px;border: 1px solid #AED6F1;">
+                    <input type="submit" value="Search"
+                           style="background: #EC6091;border: 1px solid lightgray;border-radius: 8px;">
+                </form>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-evenly;margin-top: 1rem" class="chore_status_list">
+            {% for i in chore_status %}
+                <div style="display: flex;">
+                    <div style="width: 1rem; height: 1rem; background: {{ i.color }};margin-top: 0.3rem"></div>
+                    <p style="margin-left: 0.5rem;" onMouseOver="this.style.color='{{ i.color }}'"
+                                   onMouseOut="this.style.color='#333333'">{{ i.name }}</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-12 m-auto" style="display: flex; justify-content: space-between; flex-wrap: wrap">
+            {% for project in projects %}
+                <div class="card-homepage col-3">
+                    <div class="card-homepage-header col-12">
+                        <h3><a href="{% url 'project' project.id %}">{{ project.title }}</a></h3>
+                        <a href="{% url 'chore-create' project_id=project.id %}" title="Dodaj zadatak"><i
+                                class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        {% if project.creator == request.user %}
+                            <a href="{% url 'project-users'  project_id=project.id %}" title="Dodaj osobu u zadatak"><i
+                                    class="fa fa-user-plus" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="card-homepage-chores col-12">
+                        {% for i in project.chores.all %}
+                            <div>
+                                <a href="{% url 'chore' i.id %}" title="Uredi zadatak" style="display: inline;"
+                                   onMouseOver="this.style.color='{{ i.chore_status.color }}'"
+                                   onMouseOut="this.style.color='#333333'">{{ i.name }}
+                                    - {{ i.deadline.date|date:"d.m.y" }} </a>
+                                <a href="{% url 'chore-status' i.id %}" title="Promjeni status zadatka!"><i
+                                        class="fa fa-check mx-3"
+                                        aria-hidden="true"
+                                        style="color: #EC6091"></i></a>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+
+
+            {% empty %}
+                <h3>No items here</h3>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <a href="{% url 'login' %}">Log in!</a>
+    {% endif %}
+
+{% endblock content %}

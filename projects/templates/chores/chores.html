@@ -1,0 +1,36 @@
+{% extends 'projects/layout.html' %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <h1>My projects {{ request.user }}</h1>
+        <a href="{% url 'logout' %}">Log out!</a>
+
+
+        <form method="get">
+            <input type="text" name="search-area" value="{{ search_input }}">
+            <input type="submit" value="Search">
+        </form>
+        <table>
+            <tr>
+                <th>item</th>
+                <th>opis</th>
+                <th>datum</th>
+            </tr>
+            {% for chore in chores %}
+                <tr>
+                    <th>{{ chore.name }}</th>
+                    <th>{{ chore.description }}</th>
+
+                    <th>{{ chore.deadline }}</th>
+                    <th><a href="{% url 'chore' chore.id %}">Details</a></th>
+                    <th><a href="{% url 'chore-edit' chore.id %}">Edit</a></th>
+                    <th><a href="{% url 'chore-delete' chore.id %}">Delete</a></th>
+                </tr>
+            {% empty %}
+                <h3>No items here</h3>
+            {% endfor %}
+        </table>
+    {% else %}
+        <a href="{% url 'login' %}">Log in!</a>
+    {% endif %}
+
+{% endblock content %}

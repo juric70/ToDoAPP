@@ -1,0 +1,44 @@
+{% extends 'projects/layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-6 mx-auto m-3 table-creation">
+        <h1>Registracija!</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    <strong>Error:</strong>
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field|as_crispy_field }}
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {% for error in field.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        <p class="m-2">Ukoliko imate račun <a href="{% url 'login' %}" style="color: #AED6F1">Prijavite se!</a></p>
+
+            <div class="form-group">
+                <input type="submit" class="btn m-2" value="Registriraj se" style="background: #EC6091;">
+            </div>
+        </form>
+    </div>
+
+     <script>
+        $(document).ready(function () {
+            $('input[name="username"]').blur();
+        });
+    </script>
+{% endblock content %}

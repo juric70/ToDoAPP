@@ -1,0 +1,91 @@
+{% extends 'projects/layout.html' %}
+{% block content %}
+
+
+    <div style="width: 100%">
+        <a style="float: left; display: block" href="#" onclick="history.back();" class="btn"> <u
+                style="color: #EC6091;"><i class="fa fa-arrow-left" aria-hidden="true" style="color: #EC6091;"></i>Natrag</u></a>
+    </div>
+    <div class="col-7 m-auto details mt-3 p-5">
+
+        <h1><b style="color: #AED6F1">Projekt: {{ project.title }}</b></h1>
+        <p><small>{{ project.description }}</small></p>
+
+        <div class="detail-icon-left col-12 mx-5" style="float: right;text-align: right">
+
+            {% if project.creator == request.user %}
+                <a href="{% url 'project-edit' project.id %}" title="Uredi projekt!" class="detail-icon-right"><i
+                        class="fa fa-pencil" aria-hidden="true" style="color: #EC6091"></i></a>
+                <a href="{% url 'project-delete' project.id %}" title="Obriši projekt!" class="detail-icon-right-del"><i
+                        class="fa fa-trash" aria-hidden="true" style="color: #EC6091"></i></a>
+            {% endif %}
+        {% if  project.creator != request.user %}
+                    <a href="{% url 'delete_user' project_id=project.id user_id=request.user.id  %}" ><i class="fa fa-sign-out" aria-hidden="true" style="color: brown"></i></a>
+
+        {% endif %}
+        </div>
+
+        <table class="table table-details table-borderless m-auto">
+            <thead>
+            <tr>
+                <th style="color: #EC6091">Zadaci:</th>
+                <th><a href="{% url 'chore-create' project_id=project.id %}" title="Dodaj zadatak"><i
+                        class="fa fa-plus-circle" style="color: #EC6091" aria-hidden="true"></i></a></th>
+            </tr>
+
+            </thead>
+            {% for i in chores %}
+                <tr>
+                    <td style="border-bottom: 2px solid {{ i.chore_status.color }}">{{ i.name }} - {{ i.deadline.date }} </td>
+                    <td style="width: 7rem;"><a href="{% url 'chore' i.id %}"
+                           title="Info {{ i.name }}!"
+                           class="detail-icon-right-del"><i
+                            class="fa fa-info" aria-hidden="true" style="color: #AED6F1"></i></a>
+                        {% if i.creator == request.user or project.creator == request.user %}
+                            <a href="{% url 'chore-edit' i.id %}"
+                               title="Uredi {{ i.name }}!"
+                               class="detail-icon-right-del"><i
+                                    class="fa fa-pencil" aria-hidden="true" style="color: #AED6F1"></i></a>
+                            <a href="{% url 'chore-delete' i.id %}"
+                               title="Obriši {{ i.name }}!" class="detail-icon-right-del"><i
+                                    class="fa fa-trash" aria-hidden="true" style="color: #AED6F1"></i></a>
+                        {% endif %}
+
+                            <a href="{% url 'chore-status' i.id %}"
+                               title="promjeni status zadatka: {{ i.name }}!" class="detail-icon-right-del"><i
+                                    class="fa fa-check" aria-hidden="true" style="color: #AED6F1"></i></a></td>
+                </tr>
+            {% endfor %}
+
+            <thead>
+            <tr>
+                <th style="color: #EC6091">Korisnici:</th>
+                {% if project.creator == request.user %}
+                    <th><a href="{% url 'project-users'  project_id=project.id %}" title="Dodaj osobu u zadatak"><i
+                            style="color: #EC6091" class=" fa fa-user-plus" aria-hidden="true"></i></a></th>
+                {% endif %}
+            </tr>
+            </thead>
+            {% for i in users %}
+                <tr>
+
+                    <td>{{ i.user.username }}</td>
+                    {% if  project.creator == request.user %}
+                        <td><a href="{% url 'delete_user' project_id=project.id user_id=i.user.id %}"><i
+                                class="fa fa-trash" style="color: #AED6F1" aria-hidden="true"></i></a></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            <tr>
+
+                <td style="color: pink">{{ project.creator }}</td>
+            </tr>
+
+
+            <tr>
+                <td style="color: lightgrey">{{ project.created.date }}</td>
+                <td style="text-align: right; color: lightgray">{{ project.creator }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock content %}

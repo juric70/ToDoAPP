@@ -1,0 +1,17 @@
+{% extends 'projects/layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="col-6 mx-auto table-creation mt-3">
+        <h1>Prijava</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+        <p class="m-2">Ukoliko nemate račun kreirajte ga: <a href="{% url 'register' %}" style="color: #AED6F1">Registriraj se!</a></p>
+
+            <button type="submit" class="btn m-3" style="background: #EC6091;">Prijavi se!</button>
+        </form>
+
+    </div>
+{% endblock content %}

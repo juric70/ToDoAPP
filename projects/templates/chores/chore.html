@@ -1,0 +1,51 @@
+{% extends 'projects/layout.html' %}
+{% block content %}
+    <div style="width: 100%">
+        <a style="float: left; display: block" href="#" onclick="history.back();" class="btn"> <u
+                style="color: #EC6091;"><i class="fa fa-arrow-left" aria-hidden="true" style="color: #EC6091;"></i>Natrag</u></a>
+    </div>
+    <div class="col-6 m-auto details mt-3 p-0">
+
+        <h1><b style="color: #AED6F1">Zadatak: {{ chore.name }}</b></h1>
+<div style="width: 100%; height: 2rem; background-color: {{ chore.chore_status.color }};"></div>
+
+        <div class="detail-icon-left col-12 mx-5" style="float: right;text-align: right">
+            <a href="{% url 'chore-status' chore.id %}" title="Promjeni status zadatka!"><i class="fa fa-check"
+                                                                                            aria-hidden="true"
+                                                                                            style="color: #EC6091"></i></a>
+            {% if chore.creator == request.user %}
+                <a href="{% url 'chore-edit' chore.id %}" title="Uredi zadatak!" class="detail-icon-right"><i
+                        class="fa fa-pencil" aria-hidden="true" style="color: #EC6091"></i></a>
+                <a href="{% url 'chore-delete' chore.id %}" title="Obriši zadatak!" class="detail-icon-right-del"><i
+                        class="fa fa-trash" aria-hidden="true" style="color: #EC6091"></i></a>
+            {% endif %}
+        </div>
+
+        <table class="table table-details table-borderless m-auto">
+            <tr>
+                <td>Projekt:</td>
+                <td>{{ chore.project }} </td>
+            </tr>
+            <tr>
+                <td>Opis:</td>
+                <td>{{ chore.description }} </td>
+            </tr>
+            <tr>
+                <td>Rok:</td>
+                <td><b>{{ chore.deadline.date|date:"d.m.y"  }}</b></td>
+            </tr>
+            {% if chore.chore_status != null %}
+                <tr>
+                    <td>Status posla:</td>
+                    <td>{{ chore.chore_status.name }}</td>
+                </tr>
+            {% endif %}
+
+
+            <tr>
+                <td style="color: lightgrey">{{ chore.created.date }}</td>
+                <td style="text-align: right; color: lightgray">{{ chore.creator }}</td>
+            </tr>
+        </table>
+    </div>
+{% endblock content %}

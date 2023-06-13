@@ -1,0 +1,23 @@
+{% extends 'projects/layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div style="width: 100%">
+        <a style="float: left; display: block" href="#" onclick="history.back();" class="btn"> <u
+                style="color: #EC6091;"><i class="fa fa-arrow-left" aria-hidden="true" style="color: #EC6091;"></i>Natrag</u></a>
+    </div>
+    <div class="col-6 mx-auto table-creation mt-3">
+        <h1>Create Chore Status</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <p>Ako si nesiguran za koju boju želiš odabrati: pronađi je <a
+                    href="https://htmlcolorcodes.com/color-picker/" target="_blank"
+                    style="color: #AED6F1; font-weight: bold">ovdje!</a></p>
+            <div class="form-group">
+                <input type="submit" class="btn " style="background: #EC6091" value="Kreiraj!">
+            </div>
+        </form>
+    </div>
+{% endblock content %}

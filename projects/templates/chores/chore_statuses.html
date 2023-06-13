@@ -1,0 +1,32 @@
+{% extends 'projects/layout.html' %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="row col-9 table-creation m-auto mt-3    ">
+            <h1>Statusi zadatka</h1>
+            <a style="text-align: right;text-decoration: none;color: #EC6091; font-weight: bold" href="{% url 'chore-status-create' %}"><i></i><i class="fa fa-plus" aria-hidden="true" style="color: #EC6091"></i> Dodaj status zadatka!</a>
+
+            <table class="col-8 m-auto table">
+                <tr>
+                    <th style="color: #AED6F1">Ime</th>
+                    <th style="color: #AED6F1">Boja</th>
+                </tr>
+                {% for chore in chore_statuses %}
+                    <tr>
+                        <th>{{ chore.name }}</th>
+                        <th style="font-weight: bolder">
+                            <div style="display: inline-flex; align-items: center;">
+                                <div style="height: 1.5rem; width: 1.5rem; background: {{ chore.color }};"></div>
+                                <span style="margin-left: 0.5rem;">{{ chore.color }}</span>
+                            </div>
+                        </th>
+
+                    </tr>
+                {% empty %}
+                    <h3>No items here</h3>
+                {% endfor %}
+            </table>
+        </div>
+    {% else %}
+        <a href="{% url 'login' %}">Log in!</a>
+    {% endif %}
+{% endblock content %}

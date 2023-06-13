@@ -1,0 +1,35 @@
+{% extends 'projects/layout.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div style="width: 100%">
+        <a style="float: left; display: block" href="#" onclick="history.back();" class="btn"> <u
+                style="color: #EC6091;"><i class="fa fa-arrow-left" aria-hidden="true" style="color: #EC6091;"></i>Natrag</u></a>
+    </div>
+    <div class="col-6 mx-auto table-creation">
+        <h1>Kreirajte zadatak:</h1>
+
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.media }}
+
+            <div class="form-group p-1">
+                {{ form.name|as_crispy_field }}
+            </div>
+
+            <div class="form-group p-1">
+                {{ form.description|as_crispy_field }}
+            </div>
+
+            <div class="form-group p-1">
+                {{ form.deadline|as_crispy_field }}
+            </div>
+
+            <div class="form-group p-1">
+                {{ form.chore_status|as_crispy_field }}
+            </div>
+
+            <input type="submit" value="Submit" class="btn m-1" style="background: #EC6091">
+        </form>
+    </div>
+{% endblock content %}

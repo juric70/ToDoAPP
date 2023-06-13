@@ -1,0 +1,39 @@
+{% extends 'projects/layout.html' %}
+{% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".table-search li").filter(function () {
+                    var username = $(this).text().toLowerCase();
+                    $(this).toggle(username.includes(value));
+                });
+            });
+        });
+    </script>
+    <div style="width: 100%">
+        <a style="float: left; display: block" href="#" onclick="history.back();" class="btn"> <u
+                style="color: #EC6091;"><i class="fa fa-arrow-left" aria-hidden="true" style="color: #EC6091;"></i>Natrag</u></a>
+    </div>
+    <div class="col-6 mx-auto table-creation">
+        <h1>Dodaj korisnike u: {{ project.title }}</h1>
+        <input id="myInput" type="text" placeholder="Pretraži..." class="form-control mb-3">
+        <form method="post" class="table-search">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_users">Odaberite korisnike:</label>
+                <ul class="list-unstyled">
+                    {% for user in form.users %}
+                        <li>
+                            <label class="form-check-label">
+                                {{ user }}
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <button type="submit" class="btn" style="background: #EC6091">Dodaj korisnike!</button>
+        </form>
+    </div>
+{% endblock content %}
