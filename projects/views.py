@@ -131,20 +131,6 @@ class ProjectDetailHome(LoginRequiredMixin, DetailView):
         return context
 
 
-class ProjectDetail(LoginRequiredMixin, DetailView):
-    model = Project
-    context_object_name = 'project'
-    template_name = 'projects/project.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        project = self.object
-        # context['chores'] = project.chores.all()
-        context['chores'] = project.chores.filter(deadline__gte=datetime.date.today(),
-                                                  chore_status__name='pending').order_by('deadline')
-        return context
-
-
 class ProjectCreate(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'projects/project_create.html'
@@ -241,6 +227,7 @@ class DeleteUserFromProject(DeleteView):
     model = ProjectUser
     context_object_name = 'project_user'
     template_name = 'projects/project_delete_users.html'
+    success_url = reverse_lazy('projects')
 
     def get_object(self, queryset=None):
         user_id = self.kwargs['user_id']
@@ -258,10 +245,6 @@ class DeleteUserFromProject(DeleteView):
             raise Http404
 
         return super().dispatch(request, *args, **kwargs)
-
-    def get_success_url(self):
-        project_id = self.kwargs['project_id']
-        return reverse_lazy('project', kwargs={'pk': project_id})
 
 
 ##Chore
@@ -289,7 +272,6 @@ class ChoreList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         return context
 
 
@@ -367,7 +349,6 @@ class ChoreStatusUpdate(UpdateView):
     model = Chore
     fields = ['chore_status']
     template_name = 'chores/chore_status_update.html'
-    success_url = reverse_lazy('projects')
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
@@ -376,8 +357,12 @@ class ChoreStatusUpdate(UpdateView):
         return form
 
     def form_valid(self, form):
-        # Additional logic before saving the form
         return super().form_valid(form)
+
+    def get_success_url(self):
+        chore = self.get_object()
+        project_id = chore.project.id
+        return reverse('project', kwargs={'pk': project_id})
 
 
 # Chore status

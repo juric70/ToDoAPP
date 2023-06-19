@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth.views import LogoutView
-from .views import ProjectList, ProjectDetail, ProjectCreate, ProjectEdit, ProjectDelete, CustomLoginView, RegisterPage, \
+from .views import ProjectList,  ProjectCreate, ProjectEdit, ProjectDelete, CustomLoginView, RegisterPage, \
     ChoreDelete, ChoreDetail, ChoreEdit, ChoreCreate, ChoreList, ChoreStatusUpdate, AddUserToProject, ProjectDetailHome, \
     DeleteUserFromProject, ChoreStatusList, ChoreStatusCreateView
 

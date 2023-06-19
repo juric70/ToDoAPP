@@ -92,17 +92,32 @@
             text-align: left !important;
             padding: 0 1rem;
         }
+.card-homepage {
+    height: 20rem;
+    border: #EC6091 3px solid;
+    border-radius: 2rem;
+    margin-left: 1.5%;
+    width: 30%;
+    margin-bottom: 1rem;
+    overflow: hidden;
 
-        .card-homepage {
+}
 
-            height: 20rem;
-            border: #EC6091 3px solid;
-            border-radius: 2rem;
-            margin-left: 1.5%;
-            width: 30%;
-            margin-bottom: 1rem;
-        }
+.card-homepage-chores {
+    height: calc(13rem - 2px); /* Oduzimamo debljinu granice od ukupne visine */
+    padding-bottom: 30px;
+    overflow-y: scroll;
+}
 
+.card-homepage-chores::-webkit-scrollbar {
+    width: 3px;
+    background-color: #EC6091;
+}
+
+.card-homepage-chores::-webkit-scrollbar-thumb {
+    background-color: pink;
+    border-radius: 10px;
+}
         .card-homepage-chores div {
             display: block;
             text-decoration: none;
